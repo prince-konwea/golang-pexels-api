@@ -30,17 +30,30 @@ type SerachResults struct {
 	Photos       []Photo `json: "photos"`
 }
 
-type Photos struct {
+type Photo struct {
 	Id             int         `json:"id"`
 	Width          int         `json:"width"`
 	Height         int         `json:"height"`
 	Url            string      `json:"url"`
 	Photographer   string      `json:"photographer"`
 	PhotographeUrl string      `json:"photographer_url"`
-	Source         PhotoSource `json: "src"`
+	Src            PhotoSource `json: "src"`
 }
 
 type PhotoSource struct {
+	Original  string `json:"original"`
+	Large     string `json:"large"`
+	Large2x   string `json:"large2`
+	Medium    string `json:"medium`
+	Small     string `json:"small"`
+	Potrait   string `json`
+	Square    string `json`
+	Landscape string `json`
+	Tiny      string `json`
+}
+
+func (c *Client) SearchPhotos(query string, perPage, page int) (*SerachResults, error) {
+	fmt.Sprintf(PhotoApi+"/search?query=%s&per_page=%d&page=%d", query, perPage, page)
 }
 
 func main() {
@@ -50,7 +63,7 @@ func main() {
 
 	var c = NewClient(TOKEN)
 
-	results, err := c.SearchPhotos("waves")
+	results, err := c.SearchPhotos("waves", 15, 1)
 
 	if err != nil {
 		fmt.Errorf("search error:%v", err)
